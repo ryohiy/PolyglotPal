@@ -1,18 +1,24 @@
 import requests
+import openai
 
 def interact_with_chatgpt(text, api_key):
-    url = "https://api.openai.com/v1/engines/davinci-codex/completions"
+    openai.api_key=api_key
+    url = "https://api.openai.com/v1/chat/completions"
     headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
     }
-    data = {
-        "prompt": text,
-        "max_tokens": 50,
-        "n": 1,
-        "stop": None,
-        "temperature": 0.8
-    }
-    response = requests.post(url, headers=headers, json=data)
-    chatgpt_response = response.json()["choices"][0]["text"]
-    return chatgpt_response.strip()
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role":"system",
+                "content":"あなたの名前はPolyGlotPalです。"
+            },
+            {
+                "role":"user",
+                "content":text
+            }
+        ]
+    )
+    return response["choices"][0]["message"]["content"]

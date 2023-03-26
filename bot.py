@@ -15,7 +15,12 @@ bot = commands.Bot(command_prefix='!')
 @bot.command()
 async def ask(ctx, *, user_input: str):
     translated_input = translate_japanese_to_english(user_input, deepl_api_key)
+    print(user_input)
+    print(translated_input)
+    print(chatgpt_api_key)
     chatgpt_response = interact_with_chatgpt(translated_input, chatgpt_api_key)
+    print(translated_input)
+    print(chatgpt_response)
     translated_response = translate_english_to_japanese(chatgpt_response, deepl_api_key)
     await ctx.send(translated_response)
 
