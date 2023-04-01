@@ -13,7 +13,7 @@ chatgpt_api_key = api_keys["chatgpt"]
 # Intentsオブジェクトの作成
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
-print('testaaaa')
+
 def ask(user_input):
     translated_input = translate_japanese_to_english(user_input, deepl_api_key)
     chatgpt_response = interact_with_chatgpt(translated_input, chatgpt_api_key)
@@ -21,16 +21,9 @@ def ask(user_input):
     return translated_response
 @client.event
 async def on_message(message):
-    # if message.author.bot:
-    #     print('エラー')
-    #     return
     if message.content.startswith("!ask"):
-        print('何でも聞いて')
         await message.channel.send("何でも聞いて")
         wait_message = await client.wait_for("message")
-
-        print(wait_message.content)
         res = ask(wait_message.content)
-        print(res)
         await message.channel.send(res)
 client.run(polyglotpal_bot_key)
